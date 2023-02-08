@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Create a Question", "CreateQuestion")
+    }
+</div>
+<h2>Questions</h2>
+@foreach (Question_Answer_Engine.Models.Question question in ViewBag.Questions)
+{
+    <hr />
+    <div>
+        <div>
+            <strong>@Html.ActionLink(question.Title, "QuestionDetails", new { id = question.QuestionId })</strong>
+        </div>
+        <div><i>posted on @question.Date.ToString()</i></div>
+        <div><i>by @question.UserName</i></div>
+        <div><i>Upvotes: @question.Upvotes</i></div>
+    </div>
+}
+

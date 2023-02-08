@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "QuestionDetails";
+}
+
+@model Question_Answer_Engine.Models.Question
+
+@{ 
+    Question_Answer_Engine.Models.Question question = ViewBag.Question;
+}
+
+<h2>Question Details</h2>
+<div>
+    <hr />
+    <h3>@question.Title</h3>
+    <hr />
+    <div><strong>@question.Content</strong></div>
+    <div><i>written by @question.UserName</i></div>
+    <div><i>on @question.Date.ToString()</i></div>
+    <div><i>Views: @question.Views</i></div>
+    <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+        <div>
+            <strong>@Html.ActionLink("+", "VoteQuestion", new { id = question.QuestionId }, new { @class = "btn btn-default btn-md" })</strong>
+        </div>
+        }
+        <div><i>Upvotes: @question.Upvotes</i></div>
+    </div>
+    <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div>
+                @Html.ActionLink("Create a Comment", "CreateQuestionComment", new { id = question.QuestionId })
+            </div>
+            <div>
+                @Html.ActionLink("Create an Answer", "CreateAnswer", new { id = question.QuestionId })
+            </div>
+        }
+        <hr />
+        <div>Comments:</div>
+        @foreach (Question_Answer_Engine.Models.QuestionComment comment in ViewBag.QuestionComments)
+        {
+            <hr />
+            <div>
+                <div><strong>@comment.Content</strong></div>
+                <div><i>written by @comment.UserName</i></div>
+                <div><i>on @comment.Date.ToString()</i></div>
+            </div>
+        }
+    </div>
+    <div>
+        <hr />
+        <div>Answers:</div>
+        @foreach (Question_Answer_Engine.Models.Answer answer in ViewBag.Answers)
+        {
+            <hr />
+            <div>
+                <div>
+                    <strong>@Html.ActionLink(answer.Content, "AnswerDetails", new { id = answer.AnswerId })</strong>
+                </div>
+                <div><i>written by @answer.UserName</i></div>
+                <div><i>on @answer.Date.ToString()</i></div>
+                <div><i>Upvotes: @answer.Upvotes</i></div>
+            </div>
+        }
+    </div>
+</div>
+

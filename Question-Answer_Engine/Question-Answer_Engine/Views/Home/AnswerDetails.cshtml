@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "AnswerDetails";
+}
+
+@model Question_Answer_Engine.Models.Answer
+
+@{
+    Question_Answer_Engine.Models.Answer answer = ViewBag.Answer;
+}
+
+<h2>Answer Details</h2>
+<div>
+    <div>
+        <hr />
+        <h3>@answer.Content</h3>
+        <hr />
+        <div><i>written by @answer.UserName</i></div>
+        <div><i>on @answer.Date.ToString()</i></div>
+        <div>
+            @if (User.Identity.IsAuthenticated)
+            {
+            <div>
+                <strong>@Html.ActionLink("+", "VoteAnswer", new { id = answer.AnswerId }, new { @class = "btn btn-default btn-md" })</strong>
+            </div>
+            }
+            <div><i>Upvotes: @answer.Upvotes</i></div>
+        </div>
+    </div>
+    <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div>
+                @Html.ActionLink("Create a Comment", "CreateAnswerComment", new { id = answer.AnswerId })
+            </div>
+        }
+        <hr />
+        <div>Comments:</div>
+        @foreach (Question_Answer_Engine.Models.AnswerComment comment in ViewBag.AnswerComments)
+        {
+            <hr />
+            <div>
+                <div><strong>@comment.Content</strong></div>
+                <div><i>written by @comment.UserName</i></div>
+                <div><i>on @comment.Date.ToString()</i></div>
+            </div>
+        }
+    </div>
+</div>
+
